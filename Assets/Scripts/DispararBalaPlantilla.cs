@@ -54,7 +54,7 @@ public class DispararBala : MonoBehaviour
         Vector3 direccion = (posFinal.transform.position - posInicial.transform.position).normalized;
 
         // fuerza
-        rb.AddForce(direccion * 10f, ForceMode.Impulse);
+        rb.AddForce(direccion * 50f, ForceMode.Impulse);
 
         // avisar al incrementor de balas
         GameManager.IncNumBalas();

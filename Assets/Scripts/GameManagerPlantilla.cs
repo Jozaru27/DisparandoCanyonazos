@@ -7,10 +7,11 @@ public class GameManager : MonoBehaviour
 {
     static public GameObject numBalasText;
     static int numBalas = 0;
-   
+
     void Start()
     {
         // Buscar el GO del texto
+        numBalasText = GameObject.Find("TextoBalas");
     }
 
     void Update()
@@ -25,7 +26,9 @@ public class GameManager : MonoBehaviour
 
     static public void IncNumBalas()
     {
-        // Incrementar el número de balas y cambiar el texto del canvas
+        numBalas++;
+        TextMeshProUGUI textoTMP1 = numBalasText.GetComponent<TextMeshProUGUI>();
+        textoTMP1.text = "Balas: " + numBalas.ToString();
     }
 
     static public void DecNumBalas()
