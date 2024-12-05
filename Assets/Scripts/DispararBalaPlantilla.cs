@@ -9,55 +9,60 @@ public class DispararBala : MonoBehaviour
     GameObject posFinal;
     GameObject canyon;
 
-    public     GameObject prefabBala;
+    public GameObject prefabBala;
     GameObject balaInstanciada;
-
+    float distancia;
+    public Material materialInstanciado; //necesario para poder cambiar el material del objeto
+    
+    // Al inicio del Script
     void Start(){
-        // Asignar los objetos desde la jerarquía
-        posInicial = GameObject.Find("PuntoDeDisparo"); // Nombre del objeto vacío en la punta del cañón
-        posFinal = GameObject.Find("PuntoDeDisparoFinal");     // Nombre del objeto vacío que define la dirección del disparo
-        canyon = GameObject.Find("CuerpoCañón");         // Nombre del objeto del cañón (Cilindro en la escena)
+        posInicial = GameObject.Find("PuntoDeDisparo");         // De donde sale la bala
+        posFinal = GameObject.Find("PuntoDeDisparoFinal");      // A donde apunta la bala
+        canyon = GameObject.Find("Cuerpo");                     // Nombre del objeto del cañón (Cilindro en la escena)
     }
 
-    // Update is called once per frame
-void Update(){
-    // Verificar si la bala ha sido instanciada
-    if (balaInstanciada != null && canyon != null)
-    {
-        // Calcular la distancia entre la bala y el cañón
-        float distancia = Vector3.Distance(balaInstanciada.transform.position, canyon.transform.position);
+    // Actualiza el script cada frame
+    void Update(){
+        // Si la bala no es nula (o sea, que está instanciada)
+        if (balaInstanciada != null) {
+            // Calcular la distancia entre la bala y el cañón
+            distancia = Vector3.Distance(balaInstanciada.transform.position, canyon.transform.position);
 
-        // Obtener el Renderer del cañón
-        Renderer renderer = canyon.GetComponent<Renderer>();
+            // Obtener el Renderer del cañón (Para acceder al material)
+            Renderer renderer = canyon.GetComponent<Renderer>();
 
-        // Cambiar el color del cañón si la bala está cerca
-        if (distancia < 10f)  // Cambiar el 10f a la distancia que desees
-        {
-            renderer.material.color = Color.red; // Cambiar a rojo si está cerca
-        }
-        else
-        {
-            renderer.material.color = Color.white; // Volver a blanco si no está cerca
+            // Cambiar el color del cañón si la bala está cerca
+            if (distancia < 10f){
+                renderer.material.color = Color.red;
+            } else {
+                renderer.material = materialInstanciado;
+            }
         }
     }
-}
 
 
     private void OnMouseDown(){
         // Instanciar el prefab de la bala en la posición inicial
         balaInstanciada = Instantiate(prefabBala, posInicial.transform.position, Quaternion.identity);
 
-        // Agregar un Rigidbody para manejar las físicas
+        balaInstanciada.name = "Bala"; // !!!
+
+        // necesario para mantener las físicas
         Rigidbody rb = balaInstanciada.GetComponent<Rigidbody>();
         
-        // Calcular la dirección del disparo
+        // Calcular la dirección del disparo (restar posicion inicial al final)
         Vector3 direccion = (posFinal.transform.position - posInicial.transform.position).normalized;
 
-        // Aplicar fuerza en la dirección calculada
-        rb.AddForce(direccion * 500f, ForceMode.Impulse); // Cambia 500f según la fuerza deseada
+        // fuerza
+        rb.AddForce(direccion * 10f, ForceMode.Impulse);
 
-        // Avisar al GameManager para incrementar el número de balas
+        // avisar al incrementor de balas
         GameManager.IncNumBalas();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
     }
 
 }
