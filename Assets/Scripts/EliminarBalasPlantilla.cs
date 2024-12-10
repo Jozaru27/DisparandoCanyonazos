@@ -17,11 +17,14 @@ public class EliminarBalas : MonoBehaviour
     {        
     }
     private void OnMouseDown()
-    {
-        balas = GameObject.FindGameObjectsWithTag("Bala");
-           
-        // Recorrer lista de balas y eliminarlas una a una
-        // ...
+    {       
+        // buscar los objetos con el tag Bala y destruirlos
+        GameObject[] balas = GameObject.FindGameObjectsWithTag("Bala");
+        foreach (GameObject bala in balas)
+        {
+            Destroy(bala);
+        }
+
     
         // Ahora debemos avisar al GameManager para que resetee la cuenta de balas a 0 de la variable y el canvas
         GameManager.ResetearBalas();

@@ -21,7 +21,10 @@ public class GameManager : MonoBehaviour
 
     static public void ResetearBalas()
     {
-        // Poner el número de balas a cero y cambiar el texto del canvas
+        // poner el nÃºmero de balas a 0 y cambiar el texto 
+        numBalas = 0;
+        TextMeshProUGUI textoTMP1 = numBalasText.GetComponent<TextMeshProUGUI>();
+        textoTMP1.text = "Balas: " + numBalas.ToString();
     }
 
     static public void IncNumBalas()
@@ -33,6 +36,6 @@ public class GameManager : MonoBehaviour
 
     static public void DecNumBalas()
     {
-        // Decrementar el número de balas y cambiar el texto del canvas
+
     }
 }

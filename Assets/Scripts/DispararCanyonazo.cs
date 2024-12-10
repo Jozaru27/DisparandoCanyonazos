@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI; 
 
-public class DispararBala : MonoBehaviour
+public class DispararCanyonazo : MonoBehaviour
 {
     GameObject posInicial;
     GameObject posFinal;
@@ -43,29 +43,37 @@ public class DispararBala : MonoBehaviour
 
 
     private void OnMouseDown(){
-        // Instanciar el prefab de la bala en la posición inicial
+        // Instanciar la bala
         GameObject balaInstanciada = Instantiate(prefabBala, posInicial.transform.position, Quaternion.identity);
 
         balaInstanciada.name = "Bala"; // !!! 
 
         balaInstanciada.transform.SetParent(objetoPadre);
+        
+        // genera un tamañoa aleatorio y se lo asigna a la bala
+        float tamañoAleatorio = Random.Range(0.5f, 3.0f);
+        balaInstanciada.transform.localScale = new Vector3(tamañoAleatorio, tamañoAleatorio, tamañoAleatorio);
 
         // necesario para mantener las físicas
         Rigidbody rb = balaInstanciada.GetComponent<Rigidbody>();
-        
-        // Calcular la dirección del disparo (restar posicion inicial al final)
+
+        // genera una fuerza aleatoria y se la asigna a la bala
+        float fuerzaAleatoria = Random.Range(25f, 100f);
+        // calcula la direccion de disparo
         Vector3 direccion = (posFinal.transform.position - posInicial.transform.position).normalized;
 
         // fuerza
-        rb.AddForce(direccion * 50f, ForceMode.Impulse);
+        rb.AddForce(direccion * fuerzaAleatoria, ForceMode.Impulse);
 
-        // avisar al incrementor de balas
+        // color aleatorio
+        Color[] colores = new Color[] { Color.red, Color.blue, Color.green, Color.yellow, Color.black };
+        Renderer renderer = balaInstanciada.GetComponent<Renderer>();
+        renderer.material.color = colores[Random.Range(0, colores.Length)];
+
+        // Avisar al GameManager para aumentar el número de balas
         GameManager.IncNumBalas();
     }
-
-    // private void OnCollisionEnter(Collision collision)
-    // {
-        
-    // }
-
 }
+
+// 5 colores básicos?
+// tras resetear, canyonazos funciona pero bala plantilla no

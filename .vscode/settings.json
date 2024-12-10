@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DisparandoCañonazos.sln"
+    "dotnet.defaultSolution": "DisparandoCanyonazos.sln"
 }
