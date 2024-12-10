@@ -76,4 +76,3 @@ public class DispararCanyonazo : MonoBehaviour
 }
 
 // 5 colores básicos?
-// tras resetear, canyonazos funciona pero bala plantilla no
